@@ -23,23 +23,9 @@
             max-width: 420px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
-        h1 {
-            font-size: 1.6rem;
-            margin-bottom: 8px;
-            color: #1a1a2e;
-        }
-        p.subtitle {
-            color: #666;
-            margin-bottom: 28px;
-            font-size: 0.95rem;
-        }
-        label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #333;
-        }
+        h1 { font-size: 1.6rem; margin-bottom: 8px; color: #1a1a2e; }
+        p.subtitle { color: #666; margin-bottom: 28px; font-size: 0.95rem; }
+        label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: #333; }
         input {
             width: 100%;
             padding: 12px 14px;
@@ -47,12 +33,8 @@
             border-radius: 8px;
             font-size: 1rem;
             margin-bottom: 18px;
-            transition: border-color 0.2s;
         }
-        input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
+        input:focus { outline: none; border-color: #667eea; }
         button {
             width: 100%;
             padding: 14px;
@@ -63,13 +45,9 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
         }
         button:hover { background: #5a6fd6; }
-        button:disabled {
-            background: #aaa;
-            cursor: not-allowed;
-        }
+        button:disabled { background: #aaa; cursor: not-allowed; }
         .message {
             margin-top: 16px;
             padding: 12px;
@@ -79,7 +57,7 @@
             display: none;
         }
         .success { background: #d4edda; color: #155724; }
-        .error   { background: #f8d7da; color: #721c24; }
+        .error { background: #f8d7da; color: #721c24; }
     </style>
 </head>
 <body>
@@ -94,8 +72,8 @@
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required placeholder="john@example.com">
 
-            <label for="phone">Telephone</label>
-            <input type="tel" id="phone" name="phone" required placeholder="+1 234 567 890">
+            <label for="phone">Telephone <span style="font-weight:400; color:#888;">(optional)</span></label>
+            <input type="tel" id="phone" name="phone" placeholder="+1 234 567 890">
 
             <button type="submit" id="submitBtn">Submit</button>
         </form>
@@ -123,22 +101,22 @@
             };
 
             try {
-                const res = await fetch(SCRIPT_URL, {
+                await fetch(SCRIPT_URL, {
                     method: 'POST',
                     body: JSON.stringify(data)
                 });
 
-                // Google Apps Script usually returns 200 even on success
-                message.style.display = 'block';
-                message.className = 'message success';
-                message.textContent = 'Thank you! Your details have been saved.';
-                form.reset();
+                // Create temporary access token
+                sessionStorage.setItem('formSubmitted', 'true');
+                sessionStorage.setItem('accessTime', Date.now());
+
+                // Redirect to thank-you page
+                window.location.href = 'thank-you.html';
 
             } catch (err) {
                 message.style.display = 'block';
                 message.className = 'message error';
                 message.textContent = 'Something went wrong. Please try again.';
-            } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Submit';
             }
