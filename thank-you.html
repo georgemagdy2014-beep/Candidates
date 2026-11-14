@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You – Download Your Gifts</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+        h1 { font-size: 1.7rem; margin-bottom: 12px; color: #1a1a2e; }
+        p { color: #555; margin-bottom: 28px; line-height: 1.5; }
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 14px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+        .download-btn:hover { background: #5a6fd6; }
+        .download-btn.secondary {
+            background: #28a745;
+        }
+        .download-btn.secondary:hover { background: #218838; }
+        .note {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+        .denied {
+            display: none;
+            color: #721c24;
+            background: #f8d7da;
+            padding: 16px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card" id="content">
+        <h1>Thank You!</h1>
+        <p>Your details have been received successfully.<br>
+           You can now download the files below:</p>
+
+        <!-- Change the file names to match your real files -->
+        <a href="guide1.pdf" class="download-btn" download>Download Guide 1 (PDF)</a>
+        <a href="guide2.pdf" class="download-btn secondary" download>Download Guide 2 (PDF)</a>
+
+        <p class="note">These downloads are available only after submitting the form.</p>
+    </div>
+
+    <div class="card denied" id="denied">
+        <h1>Access Denied</h1>
+        <p>You can only access this page after submitting the form.</p>
+        <br>
+        <a href="index.html" class="download-btn">Go to the Form</a>
+    </div>
+
+    <script>
+        // Protection: only allow access if the form was just submitted
+        const submitted = sessionStorage.getItem('formSubmitted');
+        const accessTime = sessionStorage.getItem('accessTime');
+        const now = Date.now();
+
+        // Token is valid only for 10 minutes
+        const isValid = submitted === 'true' && accessTime && (now - accessTime < 10 * 60 * 1000);
+
+        if (!isValid) {
+            document.getElementById('content').style.display = 'none';
+            document.getElementById('denied').style.display = 'block';
+        } else {
+            // Optional: clear the token so refresh still works for a short time
+            // but direct access later will be blocked
+            // sessionStorage.removeItem('formSubmitted');
+        }
+    </script>
+</body>
+</html>
