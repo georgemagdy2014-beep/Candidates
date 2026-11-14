@@ -62,11 +62,11 @@
     <div class="card" id="content">
         <h1>Thank You!</h1>
         <p>Your details have been received successfully.<br>
-           You can now download the files below:</p>
+           You can now download the gifts below:</p>
 
         <!-- Change the file names to match your real files -->
-        <a href="guide1.pdf" class="download-btn" download>Download Guide 1 (PDF)</a>
-        <a href="guide2.pdf" class="download-btn secondary" download>Download Guide 2 (PDF)</a>
+        <a href="guide1.pdf" class="download-btn" download>Certificate</a>
+        <a href="guide2.pdf" class="download-btn secondary" download>Parents Guide</a>
 
         <p class="note">These downloads are available only after submitting the form.</p>
     </div>
@@ -85,7 +85,7 @@
         const now = Date.now();
 
         // Token is valid only for 10 minutes
-        const isValid = submitted === 'true' && accessTime && (now - accessTime < 10 * 60 * 1000);
+        const isValid = submitted === 'true';
 
         if (!isValid) {
             document.getElementById('content').style.display = 'none';
